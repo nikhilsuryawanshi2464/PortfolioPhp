@@ -10,7 +10,7 @@ const analyticsQueue = new Bull('analytics', process.env.BULL_REDIS_URL || 'redi
 emailQueue.process('contact-notification', async (job) => {
   const { contactData } = job.data;
   logger.info(`Processing contact notification for ${contactData.email}`);
-  
+
   try {
     await sendContactNotification(contactData);
     logger.info('Contact notification sent successfully');
@@ -24,7 +24,7 @@ emailQueue.process('contact-notification', async (job) => {
 emailQueue.process('contact-auto-reply', async (job) => {
   const { contactData } = job.data;
   logger.info(`Processing auto-reply for ${contactData.email}`);
-  
+
   try {
     await sendContactAutoReply(contactData);
     logger.info('Auto-reply sent successfully');
@@ -94,7 +94,7 @@ const addAnalyticsJob = async (jobName, data, options = {}) => {
 // Initialize jobs
 const initializeJobs = async () => {
   logger.info('Initializing background jobs...');
-  
+
   // Schedule daily analytics aggregation (run at midnight)
   await analyticsQueue.add(
     'aggregate-daily',
@@ -104,7 +104,7 @@ const initializeJobs = async () => {
       removeOnComplete: true
     }
   );
-  
+
   logger.info('Background jobs initialized successfully');
 };
 
@@ -123,3 +123,6 @@ module.exports = {
   initializeJobs,
   closeQueues
 };
+
+
+//testing
