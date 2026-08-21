@@ -1,0 +1,71 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact",
+    "resume": "Resume",
+    "services": "Services",
+    "experience": "Experience",
+    "search": "Search"
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "available": "Available for work",
+    "cta_projects": "View Projects",
+    "cta_contact": "Hire Me",
+    "cta_resume": "Download CV"
+  },
+  "contact": {
+    "title": "Get In Touch",
+    "subtitle": "Let's work together",
+    "name": "Your Name",
+    "email": "Email Address",
+    "message": "Message",
+    "send": "Send Message",
+    "sending": "Sending...",
+    "success": "Message sent!",
+    "copy_email": "Copy email",
+    "copied": "Copied!"
+  },
+  "blog": {
+    "title": "Blog",
+    "read_more": "Read more",
+    "min_read": "min read",
+    "views": "views",
+    "no_posts": "No posts yet",
+    "published": "Published"
+  },
+  "projects": {
+    "title": "Projects",
+    "view": "View Project",
+    "live": "Live Demo",
+    "source": "Source Code",
+    "no_projects": "No projects yet",
+    "featured": "Featured"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "back": "Back",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "all": "All",
+    "search": "Search...",
+    "grid": "Grid",
+    "list": "List"
+  },
+  "footer": {
+    "rights": "All rights reserved"
+  },
+  "newsletter": {
+    "title": "Stay Updated",
+    "subtitle": "New posts & projects in your inbox",
+    "placeholder": "your@email.com",
+    "subscribe": "Subscribe",
+    "success": "Subscribed!",
+    "no_spam": "No spam. Unsubscribe anytime."
+  }
+}

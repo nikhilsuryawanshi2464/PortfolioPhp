@@ -1,0 +1,12 @@
+const express = require('express');
+const router = express.Router();
+const { protect, authorize } = require('../middleware/auth');
+
+router.use(protect);
+router.use(authorize('admin'));
+
+router.get('/', (req, res) => {
+  res.json({ success: true, data: [], message: 'Users management' });
+});
+
+module.exports = router;
