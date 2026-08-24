@@ -389,13 +389,14 @@ export default function HomePage() {
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
   const heroY       = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-  const rawX = useSpring(0, { stiffness: 80, damping: 30 });
+    const rawX = useSpring(0, { stiffness: 80, damping: 30 });
   const rawY = useSpring(0, { stiffness: 80, damping: 30 });
 
 
   const { data: profile,          isLoading: loadingProfile   } = useProfile();
   const { data: skills = [],      isLoading: loadingSkills    } = useSkills();
   const { data: featuredProjects = [], isLoading: loadingProjects } = useProjects({ featured: true, published: true, limit: 6 });
+  const { data: allProjects = [] } = useProjects({ published: true });
   const { data: testimonials = [], isLoading: loadingTestimonials } = useTestimonials();
   const { data: services = [],    isLoading: loadingServices  } = useServices();
 
@@ -674,9 +675,9 @@ export default function HomePage() {
       <section className="py-16 border-y border-slate-200 dark:border-white/5 bg-white dark:bg-transparent transition-colors duration-300">
         <div className="max-w-5xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
           <StatCounter value={profile?.yearsOfExperience || 5} label="Years Experience" />
-          <StatCounter value={featuredProjects.length > 0 ? featuredProjects.length : 10} label="Projects Shipped" />
-          <StatCounter value={20} label="Happy Clients" />
-          <StatCounter value={skills.length > 0 ? skills.length : 12} label="Technologies" />
+          <StatCounter value={allProjects.length > 0 ? allProjects.length : 10} label="Projects Shipped" />
+          <StatCounter value={testimonials.length > 0 ? testimonials.length : 20} label="Happy Clients" />
+          <StatCounter value={skills.length > 0 ? skills.length : 12} label="Technologies Mastered" />
         </div>
       </section>
 

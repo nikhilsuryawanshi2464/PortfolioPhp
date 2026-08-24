@@ -5,8 +5,9 @@ import { FiAward, FiBriefcase, FiCode, FiHeart, FiDownload, FiMail } from 'react
 import Nav from '@components/common/Nav';
 import Footer from '@components/common/Footer';
 import SEO from '@components/common/SEO';
-import { useProfile, useSkills, useExperience, useCertifications, useTestimonials } from '@hooks/useQueries';
+import { useProfile, useSkills, useExperience, useCertifications, useTestimonials, useProjects } from '@hooks/useQueries';
 import { usePageTracking } from '@hooks/useAnalytics';
+import { profileAPI } from '@services/api';
 
 const StatCounter = ({ value, label, icon: Icon }) => {
   const [count, setCount] = useState(0);
@@ -93,6 +94,7 @@ const AboutPage = () => {
   const dataLoaded = !loadingProfile && !loadingSkills && !loadingExperience;
   const { data: certifications = [] } = useCertifications();
   const { data: testimonials = [] }   = useTestimonials();
+  const { data: projects = [] }       = useProjects();
   usePageTracking();
 
   // Group skills by category
@@ -132,10 +134,10 @@ const AboutPage = () => {
       {/* STATS */}
       <section className="py-16 px-4 border-y border-slate-200 dark:border-white/5 bg-white dark:bg-transparent transition-colors duration-300">
         <div className="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCounter value={50} label="Projects Completed" icon={FiCode} />
+          <StatCounter value={projects.length > 0 ? projects.length : 10} label="Projects Completed" icon={FiCode} />
           <StatCounter value={profile?.yearsOfExperience || 5} label="Years Experience" icon={FiBriefcase} />
-          <StatCounter value={10} label="Awards Won" icon={FiAward} />
-          <StatCounter value={30} label="Happy Clients" icon={FiHeart} />
+          <StatCounter value={skills.length > 0 ? skills.length : 12} label="Technologies" icon={FiAward} />
+          <StatCounter value={testimonials.length > 0 ? testimonials.length : 30} label="Happy Clients" icon={FiHeart} />
         </div>
       </section>
 
