@@ -225,6 +225,37 @@ const AdminLayout = () => {
         }
         .adm-close-btn:hover { color: #f87171; border-color: #f87171; background: #1f1520; }
         @media (max-width: 1023px) { .adm-close-btn { display: flex; } }
+
+        /* ── Global Mobile Responsiveness for Admin Pages ── */
+        @media (max-width: 768px) {
+          /* Force all inline grids to be single column */
+          .adm-content div[style*="display: grid"],
+          .adm-content div[style*="display:grid"] {
+            grid-template-columns: 1fr !important;
+            gap: 16px !important;
+          }
+          
+          /* Make all tables scroll horizontally instead of squishing */
+          .adm-content table {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+          }
+          
+          /* Fix top header rows in pages that use flex space-between */
+          .adm-content div[style*="justify-content: space-between"] {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 12px;
+          }
+          
+          /* Make sure inputs and textareas take full width */
+          .adm-content input, .adm-content textarea {
+            width: 100% !important;
+            max-width: 100% !important;
+          }
+        }
       `}</style>
 
       <div className="adm-root">
