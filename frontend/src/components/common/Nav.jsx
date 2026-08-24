@@ -24,7 +24,7 @@ const Nav = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const logo = settings.logoText || { prefix: 'dev', suffix: '.portfolio' };
+  const logo = settings.logoText || { prefix: 'Nikhil', suffix: '.Suryawanshi' };
   const showHire = settings.showHireBtn !== false;
   const hireLabel = settings.hireBtnLabel || 'Hire Me';
 

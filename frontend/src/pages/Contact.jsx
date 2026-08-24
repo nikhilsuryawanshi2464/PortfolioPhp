@@ -110,7 +110,7 @@ const ContactPage = () => {
               <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-3">Let's talk about everything!</h2>
               <p className="text-slate-500 leading-relaxed mb-8">Don't hesitate to reach out. I typically reply within 24 hours.</p>
             </motion.div>
-            <InfoCard icon={FiMail} label="Email" value={profile?.contactEmail || 'nikhilsuryawanshi000@gmail.com'} delay={0.1} />
+            <InfoCard icon={FiMail} label="Email" value={profile?.contactEmail || 'nikhilsuryawanshi2464@gmail.com'} delay={0.1} />
             {profile?.phone && <InfoCard icon={FiPhone} label="Phone" value={profile.phone} delay={0.2} />}
             {profile?.location && <InfoCard icon={FiMapPin} label="Location" value={profile.location} delay={0.3} />}
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }} className="pt-2">

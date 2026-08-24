@@ -2,7 +2,7 @@ import { useSettings } from '@contexts/SiteSettingsContext';
 
 const Footer = () => {
   const { settings, footerText } = useSettings();
-  const logo   = settings.logoText || { prefix: 'dev', suffix: '.portfolio' };
+  const logo   = settings.logoText || { prefix: 'Nikhil', suffix: '.Suryawanshi' };
   const social = settings.social || {};
 
   const links = [

@@ -6,7 +6,7 @@ const SiteSettingsContext = createContext(null);
 const DEFAULTS = {
   siteName: 'Nikhil Portfolio', ownerName: 'Nikhil Suryawanshi', tagline: 'Full-Stack Developer',
   bio: '', availableForWork: true, contactEmail: '', phone: '', location: '',
-  logoText: { prefix: 'dev', suffix: '.portfolio' },
+  logoText: { prefix: 'Nikhil', suffix: '.Suryawanshi' },
   showHireBtn: true, hireBtnLabel: 'Hire Me', calendlyUrl: '',
   footerText: '© {year} · Built with React & ❤️',
   navLinks: [

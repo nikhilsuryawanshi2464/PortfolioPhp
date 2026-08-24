@@ -41,7 +41,7 @@ const uploadBuffer = (buffer, options) =>
 
 // ── GET /api/v1/profile ──────────────────────────────────────
 const getProfile = asyncHandler(async (req, res) => {
-  const user = await User.findOne({ role: 'admin' }).select('-password -refreshToken');
+  const user = await User.findOne({ role: 'admin' }).sort({ updatedAt: -1 }).select('-password -refreshToken');
   if (!user) return res.json({ success: true, data: null });
   res.json({ success: true, data: user });
 });
