@@ -41,20 +41,23 @@ export default function AdminAnalytics() {
   const [data, setData]           = useState(null);
   const [realtime, setRealtime]   = useState(null);
   const [contactStats, setContactStats] = useState(null);
+  const [visitors, setVisitors]   = useState([]);
   const [loading, setLoading]     = useState(true);
   const [realtimeInterval, setRealtimeInterval] = useState(null);
 
   const load = async (p) => {
     setLoading(true);
     try {
-      const [dash, rt, cs] = await Promise.allSettled([
+      const [dash, rt, cs, vis] = await Promise.allSettled([
         analyticsAPI.getDashboard({ period: p }),
         analyticsAPI.getRealTime(),
         contactAPI.getStats(),
+        analyticsAPI.getVisitorsList()
       ]);
       setData(dash.value?.data?.data || null);
       setRealtime(rt.value?.data?.data || null);
       setContactStats(cs.value?.data?.data || null);
+      setVisitors(vis.value?.data?.data || []);
     } catch {}
     setLoading(false);
   };
@@ -228,6 +231,48 @@ export default function AdminAnalytics() {
                 ? <div style={{ padding:'20px 0', textAlign:'center', color:'#3a3a5a', fontSize:13 }}>No category data yet</div>
                 : byCategory.map(c => <Row key={c._id} label={c._id} value={c.count} bar total={totalContacts} />)}
             </div>
+          </div>
+
+          {/* ── VISITOR JOURNEY TABLE ───────────────────────────── */}
+          <div style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a', marginBottom:12, marginTop:24 }}>Visitor Journey</div>
+          <div style={{ ...card, padding:0, overflowX:'auto' }}>
+            {visitors.length === 0 ? (
+              <div style={{ padding:'30px', textAlign:'center', color:'#3a3a5a', fontSize:13 }}>No visitor journeys recorded yet</div>
+            ) : (
+              <table style={{ width:'100%', borderCollapse:'collapse', fontSize:13, textAlign:'left' }}>
+                <thead>
+                  <tr style={{ borderBottom:'1px solid #1e1e2e', color:'#6a6a8a' }}>
+                    <th style={{ padding:'14px 20px', fontWeight:600 }}>Visitor ID</th>
+                    <th style={{ padding:'14px 20px', fontWeight:600 }}>Location / Device</th>
+                    <th style={{ padding:'14px 20px', fontWeight:600 }}>Last Active</th>
+                    <th style={{ padding:'14px 20px', fontWeight:600 }}>Journey (Pages)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {visitors.map(v => (
+                    <tr key={v._id} style={{ borderBottom:'1px solid #1e1e2e' }}>
+                      <td style={{ padding:'14px 20px', color:'#c4b5fd', fontFamily:'monospace' }}>{v._id?.substring(0, 8) || 'Unknown'}</td>
+                      <td style={{ padding:'14px 20px', color:'#8a8aaa' }}>
+                        <div>{v.country || 'Unknown'}</div>
+                        <div style={{ fontSize:11, color:'#4a4a6a', marginTop:2 }}>{v.browser} / {v.os}</div>
+                      </td>
+                      <td style={{ padding:'14px 20px', color:'#8a8aaa' }}>
+                        {new Date(v.lastVisit).toLocaleString(undefined, { month:'short', day:'numeric', hour:'numeric', minute:'2-digit'})}
+                      </td>
+                      <td style={{ padding:'14px 20px', color:'#a78bfa' }}>
+                        <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
+                          {v.paths.map((p, i) => (
+                            <span key={i} style={{ background:'#1a1a2e', border:'1px solid #2e2a4a', padding:'3px 8px', borderRadius:6, fontSize:11, color:'#e8e6f0' }}>
+                              {p}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
           </div>
 
           {/* Tracking setup hint */}

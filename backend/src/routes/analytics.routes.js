@@ -6,7 +6,8 @@ const {
   trackResumeDownload,
   trackEvent,
   getDashboard,
-  getRealTimeAnalytics
+  getRealTimeAnalytics,
+  getVisitorsList
 } = require('../controllers/analytics.controller');
 const { protect, authorize } = require('../middleware/auth');
 const { analyticsLimiter } = require('../middleware/rateLimiter');
@@ -23,5 +24,6 @@ router.use(authorize('admin', 'editor'));
 
 router.get('/dashboard', getDashboard);
 router.get('/realtime', getRealTimeAnalytics);
+router.get('/visitors', getVisitorsList);
 
 module.exports = router;

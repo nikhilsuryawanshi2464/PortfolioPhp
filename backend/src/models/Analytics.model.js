@@ -8,6 +8,7 @@ const pageViewSchema = new mongoose.Schema({
   },
   referrer: String,
   sessionId: String,
+  visitorId: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -45,6 +46,7 @@ const projectViewSchema = new mongoose.Schema({
     required: true
   },
   sessionId: String,
+  visitorId: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -71,6 +73,7 @@ const resumeDownloadSchema = new mongoose.Schema({
     default: 'pdf'
   },
   sessionId: String,
+  visitorId: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -100,6 +103,7 @@ const eventSchema = new mongoose.Schema({
   label: String,
   value: Number,
   sessionId: String,
+  visitorId: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
@@ -117,6 +121,7 @@ const sessionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  visitorId: String,
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

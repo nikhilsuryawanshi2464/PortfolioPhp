@@ -33,6 +33,7 @@ const extractMetadata = (req) => {
 const trackPageView = asyncHandler(async (req, res) => {
   const { path, referrer, duration } = req.body;
   const sessionId = req.cookies.sessionId || uuidv4();
+  const visitorId = req.cookies.visitorId || uuidv4();
   
   const metadata = extractMetadata(req);
 
@@ -40,6 +41,7 @@ const trackPageView = asyncHandler(async (req, res) => {
     path,
     referrer,
     sessionId,
+    visitorId,
     userId: req.user?.id,
     duration,
     ...metadata
@@ -49,6 +51,14 @@ const trackPageView = asyncHandler(async (req, res) => {
   if (!req.cookies.sessionId) {
     res.cookie('sessionId', sessionId, {
       maxAge: 30 * 60 * 1000, // 30 minutes
+      httpOnly: true
+    });
+  }
+  
+  // Set persistent visitor cookie if not exists
+  if (!req.cookies.visitorId) {
+    res.cookie('visitorId', visitorId, {
+      maxAge: 365 * 24 * 60 * 60 * 1000, // 1 year
       httpOnly: true
     });
   }
@@ -62,12 +72,14 @@ const trackPageView = asyncHandler(async (req, res) => {
 const trackProjectView = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
   const sessionId = req.cookies.sessionId || uuidv4();
+  const visitorId = req.cookies.visitorId || uuidv4();
   
   const metadata = extractMetadata(req);
 
   await ProjectView.create({
     projectId,
     sessionId,
+    visitorId,
     userId: req.user?.id,
     referrer: req.headers.referer,
     ...metadata
@@ -82,12 +94,14 @@ const trackProjectView = asyncHandler(async (req, res) => {
 const trackResumeDownload = asyncHandler(async (req, res) => {
   const { format = 'pdf' } = req.body;
   const sessionId = req.cookies.sessionId || uuidv4();
+  const visitorId = req.cookies.visitorId || uuidv4();
   
   const metadata = extractMetadata(req);
 
   await ResumeDownload.create({
     format,
     sessionId,
+    visitorId,
     userId: req.user?.id,
     ...metadata
   });
@@ -103,6 +117,7 @@ const trackResumeDownload = asyncHandler(async (req, res) => {
 const trackEvent = asyncHandler(async (req, res) => {
   const { category, action, label, value } = req.body;
   const sessionId = req.cookies.sessionId || uuidv4();
+  const visitorId = req.cookies.visitorId || uuidv4();
 
   await Event.create({
     category,
@@ -110,6 +125,7 @@ const trackEvent = asyncHandler(async (req, res) => {
     label,
     value,
     sessionId,
+    visitorId,
     userId: req.user?.id,
     metadata: extractMetadata(req).metadata
   });
@@ -283,11 +299,43 @@ const getRealTimeAnalytics = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Get visitors journey list
+// @route   GET /api/v1/analytics/visitors
+// @access  Private/Admin
+const getVisitorsList = asyncHandler(async (req, res) => {
+  const visitors = await PageView.aggregate([
+    { $match: { visitorId: { $exists: true, $ne: null } } },
+    { $sort: { timestamp: 1 } }, // Sort chronologically first for paths
+    {
+      $group: {
+        _id: '$visitorId',
+        firstVisit: { $first: '$timestamp' },
+        lastVisit: { $last: '$timestamp' },
+        paths: { $push: '$path' },
+        ipAddress: { $last: '$ipAddress' },
+        country: { $last: '$metadata.country' },
+        browser: { $last: '$metadata.browser' },
+        os: { $last: '$metadata.os' },
+        device: { $last: '$metadata.device' },
+        pageViews: { $sum: 1 }
+      }
+    },
+    { $sort: { lastVisit: -1 } }, // Sort by most recent visits
+    { $limit: 100 } // Limit to last 100 visitors
+  ]);
+
+  res.json({
+    success: true,
+    data: visitors
+  });
+});
+
 module.exports = {
   trackPageView,
   trackProjectView,
   trackResumeDownload,
   trackEvent,
   getDashboard,
-  getRealTimeAnalytics
+  getRealTimeAnalytics,
+  getVisitorsList
 };
