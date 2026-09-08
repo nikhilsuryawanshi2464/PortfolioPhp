@@ -240,7 +240,7 @@ export default function AdminSettings() {
           {/* Site Information */}
           <div style={card}>
             {cHead('🌐','Site Information')}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+            <div className="adm-grid-2">
               <F label="Site Name"><input className="si" style={inp} value={s.siteName||''} onChange={e=>setSett('siteName',e.target.value)} placeholder="My Portfolio" onFocus={fo} onBlur={fb} /></F>
               <F label="Your Name"><input className="si" style={inp} value={s.ownerName||''} onChange={e=>setSett('ownerName',e.target.value)} placeholder="Nikhil Suryawanshi" onFocus={fo} onBlur={fb} /></F>
               <F label="Tagline / Headline"><input className="si" style={inp} value={s.tagline||''} onChange={e=>setSett('tagline',e.target.value)} placeholder="Full-Stack Developer" onFocus={fo} onBlur={fb} /></F>
@@ -263,7 +263,7 @@ export default function AdminSettings() {
               Your logo is two parts: <strong style={{color:'#a78bfa'}}>Prefix</strong> (plain text) + <strong style={{color:'#60a5fa'}}>Suffix</strong> (colored text).
               Example: <strong style={{color:'#e8e6f0'}}>Nikhil</strong><strong style={{color:'#a78bfa'}}>.Portfolio</strong>
             </div>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+            <div className="adm-grid-2">
               <F label="Logo Prefix (plain color)">
                 <input className="si" style={inp} value={s.logoText?.prefix||'dev'} onChange={e=>setSett('logoText.prefix',e.target.value)} placeholder="Nikhil" onFocus={fo} onBlur={fb} />
               </F>
@@ -282,7 +282,7 @@ export default function AdminSettings() {
           {/* ── HIRE ME BUTTON (NEW) ── */}
           <div style={card}>
             {cHead('🎯','Hire Me Button — Navigation')}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+            <div className="adm-grid-2">
               <F label="Button Label">
                 <input className="si" style={inp} value={s.hireBtnLabel||'Hire Me'} onChange={e=>setSett('hireBtnLabel',e.target.value)} placeholder="Hire Me" onFocus={fo} onBlur={fb} />
               </F>
@@ -320,7 +320,7 @@ export default function AdminSettings() {
           {/* Social Links */}
           <div style={card}>
             {cHead('🔗','Social Links')}
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+            <div className="adm-grid-2">
               {[
                 ['GitHub',      'github',   'https://github.com/yourusername'],
                 ['LinkedIn',    'linkedin', 'https://linkedin.com/in/yourname'],
@@ -441,7 +441,7 @@ export default function AdminSettings() {
                   </button>
                 ))}
               </div>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+              <div className="adm-grid-2">
                 <F label="Accent Color Start">
                   <div style={{ display:'flex', gap:10, alignItems:'center' }}>
                     <input type="color" value={s.theme?.accentColor||'#6366f1'} onChange={e=>setSett('theme.accentColor',e.target.value)} style={{...inp,width:50,height:42,padding:'4px 6px',cursor:'pointer'}} />
@@ -536,7 +536,7 @@ export default function AdminSettings() {
                     <input type="checkbox" checked={selectedRepos.includes(repo.id)} onChange={()=>{}} style={{ width:15, height:15, accentColor:'#a78bfa', cursor:'pointer' }} />
                     <div style={{ flex:1, minWidth:0 }}>
                       <div style={{ fontSize:13.5, fontWeight:600, color:'#c4b5fd' }}>{repo.name}</div>
-                      {repo.description && <div style={{ fontSize:12, color:'#5a5a7a', marginTop:2, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{repo.description}</div>}
+                      {repo.description && <div style={{ fontSize:12, color:'#5a5a7a', marginTop:2, overflow: 'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{repo.description}</div>}
                     </div>
                     <div style={{ display:'flex', gap:8, flexShrink:0, fontSize:11, color:'#4a4a6a' }}>
                       {repo.language && <span style={{ background:'#1a1a2e', padding:'2px 8px', borderRadius:4 }}>{repo.language}</span>}

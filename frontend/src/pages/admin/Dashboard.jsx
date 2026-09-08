@@ -112,7 +112,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stat Cards */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 14, marginBottom: 24 }}>
+      <div className="adm-grid-4" style={{ marginBottom: 24 }}>
         <StatCard label="Projects" value={stats.projects} sub={`${stats.published || 0} live · ${stats.drafts || 0} draft`} icon="◈" color="#a78bfa" to="/admin/projects" loading={loading} />
         <StatCard label="Messages" value={stats.contacts} sub={stats.newMessages > 0 ? `${stats.newMessages} unread` : 'All read'} icon="✉️" color="#60a5fa" to="/admin/contacts" loading={loading} />
         <StatCard label="Skills" value={stats.skills} sub={`${Object.keys(skillsByCategory).length} categories`} icon="⚡" color="#34d399" to="/admin/skills" loading={loading} />
@@ -121,14 +121,14 @@ export default function AdminDashboard() {
 
       {/* Analytics if available */}
       {(stats.views > 0 || stats.visitors > 0) && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 24 }}>
+        <div className="adm-grid-2" style={{ marginBottom: 24 }}>
           <StatCard label="Page Views (7d)" value={stats.views?.toLocaleString()} sub="Total page views" icon="👁️" color="#fb923c" to="/admin/analytics" loading={loading} />
           <StatCard label="Unique Visitors (7d)" value={stats.visitors?.toLocaleString()} sub="Distinct visitors" icon="🌍" color="#22d3ee" to="/admin/analytics" loading={loading} />
         </div>
       )}
 
       {/* Main 2-col grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }}>
+      <div className="adm-grid-2" style={{ marginBottom: 20 }}>
 
         {/* Recent Messages */}
         <div style={card}>

@@ -138,7 +138,7 @@ export default function AdminProfile() {
         <div style={{ fontSize: 13, color: '#4a4a6a', marginTop: 4 }}>This data powers your public portfolio pages.</div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 20, alignItems: 'start' }}>
+      <div className="adm-grid-2" style={{ gap: 20, alignItems: "start", gridTemplateColumns: "1fr 300px" }}>
 
         {/* LEFT — main form */}
         <form onSubmit={handleSave}>
@@ -146,7 +146,7 @@ export default function AdminProfile() {
           {/* Basic Info */}
           <div style={card}>
             <div style={cardTitle}>Basic Information</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="adm-grid-2">
               <Field label="Display Name *">
                 <input className="pi" style={inp} value={profile.name} onChange={e => set('name', e.target.value)} placeholder="Nikhil Suryawanshi" required />
               </Field>
@@ -185,7 +185,7 @@ export default function AdminProfile() {
           {/* Social Links */}
           <div style={card}>
             <div style={cardTitle}>Social Links</div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div className="adm-grid-2">
               {[
                 ['GitHub URL', 'github', 'https://github.com/yourusername'],
                 ['LinkedIn URL', 'linkedin', 'https://linkedin.com/in/yourname'],

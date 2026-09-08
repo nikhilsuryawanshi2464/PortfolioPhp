@@ -168,7 +168,7 @@ export default function AdminBlog() {
           <div style={{ fontSize:13 }}>Start writing your first article</div>
         </div>
       ) : (
-        <div style={{ background:'#0f0f1a', border:'1px solid #1e1e2e', borderRadius:14, overflow:'hidden' }}>
+        <div style={{ background:'#0f0f1a', border:'1px solid #1e1e2e', borderRadius:14, overflow: 'hidden' }}>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 100px 80px 90px 160px', padding:'11px 18px', borderBottom:'1px solid #1e1e2e', fontSize:10, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a' }}>
             <span>Title</span><span>Category</span><span>Read</span><span>Status</span><span>Actions</span>
           </div>
@@ -222,7 +222,7 @@ export default function AdminBlog() {
         </div>
       ) : (
         <form onSubmit={handleSave}>
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 280px', gap:20, alignItems:'start' }}>
+          <div className="adm-grid-2" style={{ gap: 20, alignItems: "start", gridTemplateColumns: "1fr 280px" }}>
             <div>
               <div style={{ ...card, marginBottom:16 }}>
                 <div style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a', marginBottom:18 }}>Post Content</div>
@@ -260,7 +260,7 @@ export default function AdminBlog() {
               {/* Cover image */}
               <div style={{ ...card, marginBottom:16, textAlign:'center' }}>
                 <div style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a', marginBottom:14 }}>Cover Image</div>
-                <div style={{ width:'100%', aspectRatio:'16/9', borderRadius:9, overflow:'hidden', background:'#111120', border:'1px solid #2e2a4a', marginBottom:10, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <div style={{ width:'100%', aspectRatio:'16/9', borderRadius:9, overflow: 'hidden', background:'#111120', border:'1px solid #2e2a4a', marginBottom:10, display:'flex', alignItems:'center', justifyContent:'center' }}>
                   {form.coverImage?.url ? <img src={form.coverImage.url} alt="" style={{ width:'100%', height:'100%', objectFit:'cover' }} /> : <span style={{ fontSize:28, color:'#3a3a5a' }}>🖼️</span>}
                 </div>
                 <input ref={coverRef} id="cover-up" type="file" accept="image/*" onChange={handleCoverUpload} style={{ display:'none' }} />

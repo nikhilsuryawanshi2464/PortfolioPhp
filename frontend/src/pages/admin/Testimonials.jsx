@@ -105,7 +105,7 @@ export default function AdminTestimonials() {
             {editId ? 'Edit Testimonial' : 'New Testimonial'}
           </div>
           <form onSubmit={handleSubmit}>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+            <div className="adm-grid-2">
               <div>
                 <label style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'1.5px', color:'#4a4a6a', display:'block', marginBottom:7 }}>Name *</label>
                 <input style={inp} value={form.name} onChange={e=>set('name',e.target.value)} placeholder="John Smith" onFocus={fo} onBlur={fb} required />
@@ -170,7 +170,7 @@ export default function AdminTestimonials() {
         <div key={t._id} style={{ ...card, display:'flex', gap:16, alignItems:'flex-start' }}>
           {/* Avatar */}
           <div style={{ flexShrink:0 }}>
-            <div style={{ width:52, height:52, borderRadius:'50%', overflow:'hidden', background:'#1a1a2e', border:'2px solid #2e2a4a', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, cursor:'pointer', position:'relative' }}
+            <div style={{ width:52, height:52, borderRadius:'50%', overflow: 'hidden', background:'#1a1a2e', border:'2px solid #2e2a4a', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, cursor:'pointer', position:'relative' }}
               onClick={() => { const el = document.getElementById(`av-${t._id}`); el && el.click(); }}>
               {t.avatar ? <img src={t.avatar} alt={t.name} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
                         : <span>{t.name[0]?.toUpperCase()}</span>}

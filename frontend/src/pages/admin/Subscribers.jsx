@@ -66,7 +66,7 @@ export default function AdminSubscribers() {
       </div>
 
       {/* Stats */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginBottom:20 }}>
+      <div className="adm-grid-3" style={{ marginBottom: 20 }}>
         {[
           { label:'Total', value: total, color:'#a78bfa' },
           { label:'Active', value: subscribers.filter(s=>s.active).length, color:'#10b981' },
@@ -113,8 +113,8 @@ export default function AdminSubscribers() {
               <div key={sub._id} style={{ display:'grid', gridTemplateColumns:'1fr 140px 100px 90px 90px', gap:12, padding:'11px 14px', background:'#0f0f1a', borderRadius:10, border:'1px solid #1e1e2e', alignItems:'center', fontSize:13 }}
                 onMouseEnter={e=>e.currentTarget.style.borderColor='#2e2a4a'}
                 onMouseLeave={e=>e.currentTarget.style.borderColor='#1e1e2e'}>
-                <div style={{ color:'#c4b5fd', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{sub.email}</div>
-                <div style={{ color:'#8a8aaa', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{sub.name || '—'}</div>
+                <div style={{ color:'#c4b5fd', overflow: 'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{sub.email}</div>
+                <div style={{ color:'#8a8aaa', overflow: 'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{sub.name || '—'}</div>
                 <div style={{ fontSize:11, color:'#4a4a6a', textTransform:'capitalize' }}>{sub.source || 'website'}</div>
                 <div>
                   <span style={{ fontSize:11, color: sub.active ? '#10b981' : '#f87171', fontWeight:600 }}>

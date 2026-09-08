@@ -4,7 +4,7 @@ const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const {
   getProjects, getProject, getProjectById, createProject, updateProject,
-  deleteProject, getRelatedProjects, searchProjects
+  deleteProject, getRelatedProjects, searchProjects, reorderProjects
 } = require('../controllers/project.controller');
 const { protect, authorize, optionalAuth } = require('../middleware/auth');
 
@@ -164,6 +164,7 @@ router.get('/:id/related', getRelatedProjects);
 // Protected routes
 router.use(protect);
 router.use(authorize('admin', 'editor'));
+router.put('/reorder', authorize('admin'), reorderProjects);
 router.post('/', createProject);
 router.put('/:id', updateProject);
 router.delete('/:id', authorize('admin'), deleteProject);

@@ -244,7 +244,7 @@ export default function AdminProjectEditor() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ display:'grid', gridTemplateColumns:'1fr 290px', gap:20, alignItems:'start' }}>
+        <div className="adm-grid-2" style={{ gap: 20, alignItems: "start", gridTemplateColumns: "1fr 290px" }}>
 
           {/* ── LEFT ─────────────────────────────────── */}
           <div>
@@ -263,7 +263,7 @@ export default function AdminProjectEditor() {
 
             <div style={card}>
               <div style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a', marginBottom:18 }}>Technologies & Links</div>
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+              <div className="adm-grid-2">
                 <F t="Technologies (comma separated)">
                   <input style={inp} value={form.technologies} onChange={e=>set('technologies',e.target.value)} placeholder="React, Node.js, MongoDB" onFocus={fo} onBlur={fb} />
                 </F>
@@ -290,7 +290,7 @@ export default function AdminProjectEditor() {
               <div style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a', marginBottom:14 }}>Cover Image</div>
 
               {/* Preview */}
-              <div style={{ width:'100%', aspectRatio:'16/9', borderRadius:10, overflow:'hidden', background:'#111120', border:'1px solid #2e2a4a', marginBottom:12, display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }}>
+              <div style={{ width:'100%', aspectRatio:'16/9', borderRadius:10, overflow: 'hidden', background:'#111120', border:'1px solid #2e2a4a', marginBottom:12, display:'flex', alignItems:'center', justifyContent:'center', position:'relative' }}>
                 {(thumbPreview || thumbUrl) ? (
                   <>
                     <img src={thumbPreview || thumbUrl} alt="thumbnail" style={{ width:'100%', height:'100%', objectFit:'cover' }} />

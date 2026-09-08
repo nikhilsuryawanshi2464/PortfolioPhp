@@ -27,7 +27,7 @@ const uploadBuf = (buf, opts) => new Promise((res, rej) => {
 // GET all skills (public)
 router.get('/', optionalAuth, async (req, res) => {
   try {
-    const skills = await Skill.find({ visible: true }).sort({ category: 1, priority: -1 });
+    const skills = await Skill.find({ visible: true }).sort({ priority: -1, createdAt: -1 });
     res.json({ success: true, data: skills });
   } catch (err) { res.status(500).json({ success: false, error: err.message }); }
 });
@@ -35,7 +35,7 @@ router.get('/', optionalAuth, async (req, res) => {
 // GET all including hidden (admin)
 router.get('/all', protect, authorize('admin', 'editor'), async (req, res) => {
   try {
-    const skills = await Skill.find().sort({ category: 1, priority: -1 });
+    const skills = await Skill.find().sort({ priority: -1, createdAt: -1 });
     res.json({ success: true, data: skills });
   } catch (err) { res.status(500).json({ success: false, error: err.message }); }
 });
@@ -46,6 +46,30 @@ router.post('/', protect, authorize('admin', 'editor'), async (req, res) => {
     const skill = await Skill.create(req.body);
     res.status(201).json({ success: true, data: skill });
   } catch (err) { res.status(400).json({ success: false, error: err.message }); }
+});
+
+// REORDER
+router.put('/reorder', protect, authorize('admin'), async (req, res) => {
+  try {
+    const { skillIds } = req.body;
+    if (!skillIds || !Array.isArray(skillIds)) {
+      return res.status(400).json({ success: false, error: 'Please provide an array of skill IDs' });
+    }
+
+    const total = skillIds.length;
+    const bulkOps = skillIds.map((id, index) => ({
+      updateOne: {
+        filter: { _id: id },
+        update: { priority: total - index }
+      }
+    }));
+
+    if (bulkOps.length > 0) {
+      await Skill.bulkWrite(bulkOps);
+    }
+
+    res.json({ success: true, message: 'Skills reordered successfully' });
+  } catch (err) { res.status(500).json({ success: false, error: err.message }); }
 });
 
 // UPDATE

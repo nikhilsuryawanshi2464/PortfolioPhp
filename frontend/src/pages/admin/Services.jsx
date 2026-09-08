@@ -86,7 +86,7 @@ export default function AdminServices() {
         <div style={{ ...card, border:'1px solid #2e2a4a', marginBottom:24 }}>
           <div style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a', marginBottom:18 }}>{editId?'Edit Service':'New Service'}</div>
           <form onSubmit={handleSubmit}>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+            <div className="adm-grid-2">
               <div><label style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'1.5px', color:'#4a4a6a', display:'block', marginBottom:7 }}>Title *</label>
                 <input className="si" style={inp} value={form.title} onChange={e=>set('title',e.target.value)} placeholder="Web Development" onFocus={fo} onBlur={fb} required /></div>
               <div>

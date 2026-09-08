@@ -92,7 +92,7 @@ export default function AdminCertifications() {
         <div style={{ ...card, border:'1px solid #2e2a4a', marginBottom:24 }}>
           <div style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'2px', color:'#3a3a5a', marginBottom:18 }}>{editId?'Edit':'New'} Entry</div>
           <form onSubmit={handleSubmit}>
-            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:14 }}>
+            <div className="adm-grid-2">
               <div><label style={{ fontSize:11, textTransform:'uppercase', letterSpacing:'1.5px', color:'#4a4a6a', display:'block', marginBottom:7 }}>Type</label>
                 <select className="ci" style={{...inp,cursor:'pointer'}} value={form.type} onChange={e=>set('type',e.target.value)}>
                   {TYPES.map(t=><option key={t} value={t}>{TYPE_ICON[t]} {t}</option>)}

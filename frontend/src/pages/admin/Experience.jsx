@@ -56,7 +56,7 @@ export default function AdminExperience() {
         <div style={{ background: '#0f0f1a', border: '1px solid #1e1e2e', borderRadius: 14, padding: 24, marginBottom: 24 }}>
           <h2 style={{ marginBottom: 16, fontSize: 18 }}>{editId ? 'Edit' : 'New'} Experience</h2>
           <form onSubmit={handleSubmit}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className="adm-grid-2" style={{ gap: 16 }}>
               {[['company','Company',true],['position','Job Title',true],['location','Location',false]].map(([key,label,req]) => (
                 <div key={key}>
                   <label style={{ fontSize: 13, color: '#6b6b8a', display: 'block', marginBottom: 6 }}>{label}</label>
