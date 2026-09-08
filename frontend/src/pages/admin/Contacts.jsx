@@ -55,9 +55,9 @@ export default function AdminContacts() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: selected ? '1fr 360px' : '1fr', gap: 16 }}>
+      <div className="adm-grid-2" style={{ display: "grid", gridTemplateColumns: selected ? "1fr 360px" : "1fr", gap: 16 }}>
         {/* List */}
-        <div style={{ background: '#0f0f1a', border: '1px solid #1e1e2e', borderRadius: 12, overflow: 'hidden' }}>
+        <div className="adm-table-wrap">
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 130px 80px 80px', padding: '11px 18px', borderBottom: '1px solid #1e1e2e', fontSize: 10, textTransform: 'uppercase', letterSpacing: '2px', color: '#3a3a5a' }}>
             <span>From</span><span>Subject</span><span>Status</span><span>Date</span>
           </div>

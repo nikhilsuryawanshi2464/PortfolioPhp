@@ -2,6 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { skillsAPI } from '@services/api';
 import api from '@services/api';
 import toast from 'react-hot-toast';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy, useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 const CATEGORIES = ['frontend', 'backend', 'database', 'devops', 'tools', 'soft-skills', 'other'];
 const inp = {
@@ -60,6 +63,30 @@ export default function AdminSkills() {
   const [logoSearch, setLogoSearch] = useState('');
   const fileRefs     = useRef({});
   const fileDarkRefs = useRef({});
+
+  
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+    if (over && active.id !== over.id) {
+      const oldIndex = skills.findIndex(s => s._id === active.id);
+      const newIndex = skills.findIndex(s => s._id === over.id);
+      const newSkills = arrayMove(skills, oldIndex, newIndex);
+      setSkills(newSkills);
+      
+      try {
+        await skillsAPI.reorder({ skillIds: newSkills.map(s => s._id) });
+        toast.success('Order saved');
+      } catch {
+        toast.error('Failed to save order');
+        fetchSkills(); // revert
+      }
+    }
+  };
 
   const fetchSkills = async () => {
     try {
@@ -195,7 +222,7 @@ export default function AdminSkills() {
             {editId ? 'Edit Skill' : 'New Skill'}
           </div>
           <form onSubmit={handleSubmit}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div className="adm-grid-2" style={{ gap: 16 }}>
               <div>
                 <label style={{ fontSize: 12, color: '#6b6b8a', display: 'block', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '1px' }}>Skill Name *</label>
                 <input className="sk-inp" style={inp} value={form.name} onChange={e => set('name', e.target.value)} placeholder="e.g. React" required onFocus={fo} onBlur={fb} />
@@ -294,26 +321,30 @@ export default function AdminSkills() {
           <div style={{ fontSize: 15, color: '#6a6a8a' }}>No skills yet. Add your first skill!</div>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
-          {skills.map(skill => (
-            <SkillCard
-              key={skill._id}
-              skill={skill}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-              onIconUpload={handleIconUpload}
-              onIconDarkUpload={handleIconDarkUpload}
-              onIconUrl={handleIconUrl}
-              onIconDelete={handleIconDelete}
-              onIconDarkDelete={handleIconDarkDelete}
-              uploading={uploadingIcon === skill._id}
-              uploadingDark={uploadingIconDark === skill._id}
-              fileRefs={fileRefs}
-              fileDarkRefs={fileDarkRefs}
-              quickLogos={QUICK_LOGOS}
-            />
-          ))}
-        </div>
+        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <SortableContext items={skills.map(s => String(s._id))} strategy={rectSortingStrategy}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
+              {skills.map(skill => (
+                <SkillCard
+                  key={skill._id}
+                  skill={skill}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  onIconUpload={handleIconUpload}
+                  onIconDarkUpload={handleIconDarkUpload}
+                  onIconUrl={handleIconUrl}
+                  onIconDelete={handleIconDelete}
+                  onIconDarkDelete={handleIconDarkDelete}
+                  uploading={uploadingIcon === skill._id}
+                  uploadingDark={uploadingIconDark === skill._id}
+                  fileRefs={fileRefs}
+                  fileDarkRefs={fileDarkRefs}
+                  quickLogos={QUICK_LOGOS}
+                />
+              ))}
+            </div>
+          </SortableContext>
+        </DndContext>
       )}
     </div>
   );
@@ -330,13 +361,24 @@ function SkillCard({
   const [urlVal, setUrlVal]                   = useState('');
   const [showLogoPicker, setShowLogoPicker]   = useState(false);
 
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: String(skill._id) });
+  const style = {
+    background: isDragging ? '#1a1a2e' : '#0f0f1a', 
+    border: '1px solid #1e1e2e', borderRadius: 14, padding: 20, position: 'relative', 
+    transition: transition || 'border-color 0.2s',
+    transform: CSS.Translate.toString(transform),
+    zIndex: isDragging ? 10 : 1,
+  };
+
   const lightInputId = `icon-file-${skill._id}`;
   const darkInputId  = `icon-dark-file-${skill._id}`;
 
   return (
-    <div style={{ background: '#0f0f1a', border: '1px solid #1e1e2e', borderRadius: 14, padding: 20, position: 'relative', transition: 'border-color 0.2s' }}
-      onMouseEnter={e => e.currentTarget.style.borderColor = '#2e2a4a'}
-      onMouseLeave={e => e.currentTarget.style.borderColor = '#1e1e2e'}>
+    <div ref={setNodeRef} style={style}
+      onMouseEnter={e => { if(!isDragging) e.currentTarget.style.borderColor = '#2e2a4a' }}
+      onMouseLeave={e => { if(!isDragging) e.currentTarget.style.borderColor = '#1e1e2e' }}>
+      
+      <div {...attributes} {...listeners} style={{ position: 'absolute', top: 15, right: 15, cursor: 'grab', color: '#6a6a8a', fontSize: 16, touchAction: 'none' }}>☰</div>
 
       {/* Skill name + meta */}
       <div style={{ marginBottom: 14 }}>

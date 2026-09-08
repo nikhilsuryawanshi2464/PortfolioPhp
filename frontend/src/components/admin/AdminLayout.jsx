@@ -227,33 +227,24 @@ const AdminLayout = () => {
         @media (max-width: 1023px) { .adm-close-btn { display: flex; } }
 
         /* ── Global Mobile Responsiveness for Admin Pages ── */
+        .adm-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .adm-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .adm-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+        .adm-flex-between { display: flex; align-items: center; justify-content: space-between; }
+        .adm-table-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid #1e1e2e; background: #0f0f1a; }
+        .adm-table-wrap > div { min-width: 700px; }
+
         @media (max-width: 768px) {
-          /* Force all inline grids to be single column */
-          .adm-content div[style*="display: grid"],
-          .adm-content div[style*="display:grid"] {
-            grid-template-columns: 1fr !important;
-            gap: 16px !important;
-          }
-          
-          /* Make all tables scroll horizontally instead of squishing */
-          .adm-content table {
-            display: block;
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-          }
-          
-          /* Fix top header rows in pages that use flex space-between */
-          .adm-content div[style*="justify-content: space-between"] {
-            flex-direction: column;
-            align-items: flex-start !important;
-            gap: 12px;
-          }
+          .adm-grid-2, .adm-grid-3 { grid-template-columns: 1fr !important; gap: 14px !important; }
+          .adm-flex-between { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
           
           /* Make sure inputs and textareas take full width */
-          .adm-content input, .adm-content textarea {
+          .adm-content input:not([type="checkbox"]):not([type="radio"]):not([type="color"]), 
+          .adm-content textarea,
+          .adm-content select {
             width: 100% !important;
             max-width: 100% !important;
+            box-sizing: border-box !important;
           }
         }
       `}</style>

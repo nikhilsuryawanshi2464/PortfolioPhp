@@ -30,7 +30,7 @@ const getProjects = asyncHandler(async (req, res) => {
     tags,
     featured,
     published,
-    sort     = '-createdAt',
+    sort     = '-priority -createdAt',
   } = req.query;
 
   // Build filter
@@ -241,6 +241,33 @@ const searchProjects = asyncHandler(async (req, res) => {
   res.json({ success: true, count: projects.length, data: projects });
 });
 
+// ─── REORDER projects ──────────────────────────────────────────
+// @route   PUT /api/v1/projects/reorder
+// @access  Private/Admin
+const reorderProjects = asyncHandler(async (req, res, next) => {
+  const { projectIds } = req.body;
+  if (!projectIds || !Array.isArray(projectIds)) {
+    return next(new AppError('Please provide an array of project IDs', 400));
+  }
+
+  const total = projectIds.length;
+  const bulkOps = projectIds.map((id, index) => ({
+    updateOne: {
+      filter: { _id: id },
+      update: { priority: total - index }
+    }
+  }));
+
+  if (bulkOps.length > 0) {
+    await Project.bulkWrite(bulkOps);
+    await cache.delPattern('projects:*');
+  }
+
+  logger.info(`Projects reordered by ${req.user.email}`);
+
+  res.json({ success: true, message: 'Projects reordered successfully' });
+});
+
 module.exports = {
   getProjects,
   getProject,
@@ -250,4 +277,5 @@ module.exports = {
   deleteProject,
   getRelatedProjects,
   searchProjects,
+  reorderProjects,
 };

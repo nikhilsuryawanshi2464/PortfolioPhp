@@ -23,11 +23,11 @@ const Stat = ({ label, value, sub, color='#a78bfa' }) => (
 const Row = ({ label, value, bar, total }) => (
   <div style={{ marginBottom:10 }}>
     <div style={{ display:'flex', justifyContent:'space-between', fontSize:13, marginBottom:4 }}>
-      <span style={{ color:'#8a8aaa', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'70%' }}>{label || 'Unknown'}</span>
+      <span style={{ color:'#8a8aaa', overflow: 'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'70%' }}>{label || 'Unknown'}</span>
       <span style={{ color:'#c4b5fd', fontWeight:600 }}>{value}</span>
     </div>
     {bar && total > 0 && (
-      <div style={{ height:4, background:'#1a1a2e', borderRadius:2, overflow:'hidden' }}>
+      <div style={{ height:4, background:'#1a1a2e', borderRadius:2, overflow: 'hidden' }}>
         <div style={{ height:4, borderRadius:2, background:'linear-gradient(90deg,#a78bfa,#60a5fa)', width:`${Math.round((value/total)*100)}%`, transition:'width 0.6s' }} />
       </div>
     )}
@@ -129,7 +129,7 @@ export default function AdminAnalytics() {
       )}
 
       {loading ? (
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:14, marginBottom:20 }}>
+        <div className="adm-grid-4" style={{ marginBottom: 20 }}>
           {Array.from({length:4}).map((_,i) => <div key={i} style={{ height:90, background:'#0f0f1a', borderRadius:14, opacity:0.4 }} />)}
         </div>
       ) : (
@@ -178,7 +178,7 @@ export default function AdminAnalytics() {
           )}
 
           {/* ── TOP PAGES + PROJECTS ───────────────────── */}
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20, marginBottom:20 }}>
+          <div className="adm-grid-2" style={{ marginBottom: 20 }}>
             <div style={card}>
               <div style={cTitle}>Top Pages</div>
               {(data?.topPages || []).length === 0
@@ -194,7 +194,7 @@ export default function AdminAnalytics() {
           </div>
 
           {/* ── TRAFFIC + GEO ──────────────────────────── */}
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20, marginBottom:20 }}>
+          <div className="adm-grid-2" style={{ marginBottom: 20 }}>
             <div style={card}>
               <div style={cTitle}>Traffic Sources</div>
               {(data?.trafficSources || []).length === 0
@@ -218,7 +218,7 @@ export default function AdminAnalytics() {
             <Stat label="Response Rate"   value={`${responseRate}%`} color={responseRate>50?'#34d399':'#f87171'} sub="Replied / Total" />
           </div>
 
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20 }}>
+          <div className="adm-grid-2" style={{ gap: 20 }}>
             <div style={card}>
               <div style={cTitle}>By Status</div>
               {byStatus.length === 0
